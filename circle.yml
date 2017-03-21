@@ -23,10 +23,13 @@ dependencies:
     pre:
         - touch app/google-services.json
         - echo $GOOGLE_SERVICES_JSON > app/google-services.json
-        - echo y | android update sdk --no-ui --all --filter "tools,android-25,build-tools-25.0.2,platform-tools,extra-android-m2repository,extra-android-support,extra-google-m2repository,extra-google-google_play_services"
+        - echo y | android update sdk --no-ui --all --filter "tools,android-25,build-tools-25.0.2,platform-tools,extra-android-m2repository,extra-android-support,extra-google-m2repository,extra-google-google_play_services,"
+        - mkdir $ANDROID_HOME/licenses; ls -l $ANDROID_HOME/licenses
+        - cp --force licenses/* $ANDROID_HOME/licenses; ls -l $ANDROID_HOME/licenses
+
     cache_directories:
         - /usr/local/android-sdk-linux/tools
-        - /usr/local/android-sdk-linux/build-tools/24.0.0
+        - /usr/local/android-sdk-linux/build-tools/25.0.2
 
 test:
     override:
