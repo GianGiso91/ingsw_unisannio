@@ -39,6 +39,6 @@ dependencies:
         - /usr/local/android-sdk-linux/build-tools/25.0.2
 
 test:
-    override:
-        - (./gradlew assemble):
-            timeout: 360
+     override:
+        - ./gradlew assembleRelease
+        - cp -r project-name/build/outputs $CIRCLE_ARTIFACTS
