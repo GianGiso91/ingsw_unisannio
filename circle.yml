@@ -40,5 +40,5 @@ dependencies:
 
 test:
      override:
+        -pwd
         - ./gradlew assembleRelease
-        - cp . $CIRCLE_ARTIFACTS
