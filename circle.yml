@@ -5,6 +5,11 @@
 # https://discuss.circleci.com/t/installing-android-build-tools-23-0-2/924
 #
 
+licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
 general:
     artifacts:
         - /home/ubuntu/ingw_unisannio/app/build/outputs/apk/
