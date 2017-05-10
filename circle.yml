@@ -42,4 +42,3 @@ dependencies:
 test:
      override:
         - ./gradlew checkstyleMain
-        - cp  ./*  $CIRCLE_ARTIFACTS
