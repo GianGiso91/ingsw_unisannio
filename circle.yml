@@ -12,7 +12,7 @@ licenses:
 
 general:
     artifacts:
-        - /home/ubuntu/ingw_unisannio/app/build/outputs/apk/
+        #- /home/ubuntu/ingw_unisannio/app/build/outputs/apk/
         - /home/ubuntu/ingsw_unisannio/app/build/reports/
 
 machine:
@@ -41,4 +41,5 @@ dependencies:
 
 test:
      override:
-        - ./gradlew check
+        - ./gradlew checkstyleMain
+        - cp  /home/ubuntu/ingsw_unisannio/app/build/reports/*  $CIRCLE_ARTIFACTS

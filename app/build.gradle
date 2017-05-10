@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -29,9 +30,59 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+checkstyle {
+    toolVersion = "7.7"
+}
+
+task checkstyleMain (type: Checkstyle) {
+    ignoreFailures = false
+    showViolations = false
+    source 'src/main', 'src/release'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    reports {
+        xml.destination "$project.buildDir/reports/checkstyle/main.xml"
+    }
+    classpath = files()
+    configFile = file("${projectDir}/config/checkstyle/checkstyle.xml")
+}
+
+task checkstyleTest (type: Checkstyle){
+    ignoreFailures = false
+    showViolations = false
+    source 'src/androidTest'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    reports {
+        xml.destination "$project.buildDir/reports/checkstyle/test.xml"
+    }
+    classpath = files()
+    configFile = file("${projectDir}/config/checkstyle/checkstyle.xml")
+}
+
+
+task checkstyleReport << {
+    checkType = project.ext.get("checkType")
+    if (file("$buildDir/reports/checkstyle/${checkType}.xml").exists()) {
+        ant.xslt(in: "$project.buildDir/reports/checkstyle/${checkType}.xml",
+                style:"${rootProject.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
+                out:"$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
+        )
+    }
+}
+
+task checkstyle(dependsOn:['checkstyleMain', 'checkstyleTest']){
+    description 'Runs Checkstyle inspection against Android sourcesets.'
+    group = 'Code Quality'
+}
+
 tasks.withType(Checkstyle) {
     reports {
-        xml.enabled false
         html.enabled true
+        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
     }
 }
