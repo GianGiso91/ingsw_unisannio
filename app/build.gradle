@@ -64,12 +64,11 @@ task checkstyleTest (type: Checkstyle){
     configFile = file("${projectDir}/config/checkstyle/checkstyle.xml")
 }
 
-
 task checkstyleReport << {
     checkType = project.ext.get("checkType")
     if (file("$buildDir/reports/checkstyle/${checkType}.xml").exists()) {
         ant.xslt(in: "$project.buildDir/reports/checkstyle/${checkType}.xml",
-                style:"${rootProject.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
+                style:"${projectDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
                 out:"$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
         )
     }
@@ -78,11 +77,4 @@ task checkstyleReport << {
 task checkstyle(dependsOn:['checkstyleMain', 'checkstyleTest']){
     description 'Runs Checkstyle inspection against Android sourcesets.'
     group = 'Code Quality'
-}
-
-tasks.withType(Checkstyle) {
-    reports {
-        html.enabled true
-        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
-    }
 }

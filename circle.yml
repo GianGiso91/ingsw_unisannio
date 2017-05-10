@@ -42,4 +42,4 @@ dependencies:
 test:
      override:
         - ./gradlew checkstyleMain
-        - cp  /home/ubuntu/ingsw_unisannio/app/build/reports/*  $CIRCLE_ARTIFACTS
+        - cp  ./*  $CIRCLE_ARTIFACTS
