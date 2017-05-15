@@ -21,20 +21,28 @@ android {
     }
 }
 
+configurations {
+    compile.exclude group: "org.apache.httpcomponents", module: "httpclient"
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.code.findbugs:jsr305:2.0.1'
+    compile group: 'com.google.api-client', name: 'google-api-client', version: '1.19.1'
+    compile group: 'com.google.http-client', name: 'google-http-client-android', version: '1.22.0'
     testCompile 'junit:junit:4.12'
+    compile project(path: ':backend', configuration: 'android-endpoints')
 }
 
 checkstyle {
     toolVersion = "7.7"
 }
 
-task checkstyleMain (type: Checkstyle) {
+task checkstyleMain(type: Checkstyle) {
     ignoreFailures = false
     showViolations = false
     source 'src/main', 'src/release'
@@ -49,7 +57,7 @@ task checkstyleMain (type: Checkstyle) {
     configFile = file("${projectDir}/config/checkstyle/checkstyle.xml")
 }
 
-task checkstyleTest (type: Checkstyle){
+task checkstyleTest(type: Checkstyle) {
     ignoreFailures = false
     showViolations = false
     source 'src/androidTest'
@@ -68,13 +76,13 @@ task checkstyleReport << {
     checkType = project.ext.get("checkType")
     if (file("$buildDir/reports/checkstyle/${checkType}.xml").exists()) {
         ant.xslt(in: "$project.buildDir/reports/checkstyle/${checkType}.xml",
-                style:"${projectDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
-                out:"$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
+                style: "${projectDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
+                out: "$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
         )
     }
 }
 
-task checkstyle(dependsOn:['checkstyleMain', 'checkstyleTest']){
+task checkstyle(dependsOn: ['checkstyleMain', 'checkstyleTest']) {
     description 'Runs Checkstyle inspection against Android sourcesets.'
     group = 'Code Quality'
 }
