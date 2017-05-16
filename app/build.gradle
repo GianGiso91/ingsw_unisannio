@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
 
 
 android {
@@ -45,7 +47,7 @@ checkstyle {
 task checkstyleMain(type: Checkstyle) {
     ignoreFailures = false
     showViolations = false
-    source 'src/main', 'src/release'
+    source 'src/main', 'src/release', '../backend/src/main/java'
     include '**/*.java'
     exclude '**/gen/**'
     exclude '**/R.java'
@@ -60,7 +62,7 @@ task checkstyleMain(type: Checkstyle) {
 task checkstyleTest(type: Checkstyle) {
     ignoreFailures = false
     showViolations = false
-    source 'src/androidTest'
+    source 'src/androidTest', '../backend/src/test'
     include '**/*.java'
     exclude '**/gen/**'
     exclude '**/R.java'
@@ -85,4 +87,50 @@ task checkstyleReport << {
 task checkstyle(dependsOn: ['checkstyleMain', 'checkstyleTest']) {
     description 'Runs Checkstyle inspection against Android sourcesets.'
     group = 'Code Quality'
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "default"
+    reportLevel = "medium"
+    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    source = fileTree('src/main/java/')
+    classpath = files()
+    excludeFilter = file("${projectDir}/config/findbugs/excludeFilter.xml")
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$project.buildDir/reports/findbugs/findbugs-output.xml"
+        }
+        html {
+            destination "$project.buildDir/reports/findbugs/findbugs-output.html"
+        }
+    }
+}
+
+pmd{
+    toolVersion = '5.5.1'
+}
+
+task pmd(type: Pmd) {
+    ruleSetFiles = files("${projectDir}/config/pmd/pmd-ruleset.xml")
+    ignoreFailures = true
+    ruleSets = []
+
+
+    source 'src', '../backend/src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$project.buildDir/reports/pmd/pmd.xml"
+        }
+        html {
+            destination "$project.buildDir/reports/pmd/pmd.html"
+        }
+    }
 }

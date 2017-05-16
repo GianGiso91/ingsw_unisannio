@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
     }
 }
 
-class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Integer, String> {
     private static BeerApi myApiService = null;
     private Context context;
 
