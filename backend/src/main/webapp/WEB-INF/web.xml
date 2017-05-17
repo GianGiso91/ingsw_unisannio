@@ -13,7 +13,8 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>unisannio.ingsoft.bbm.backend.BeerEndpoint</param-value>
+            <param-value>unisannio.ingsoft.bbm.backend.BeerEndpoint,
+                unisannio.ingsoft.bbm.backend.BreweryEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

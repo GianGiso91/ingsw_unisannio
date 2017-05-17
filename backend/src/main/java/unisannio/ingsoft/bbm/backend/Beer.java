@@ -13,8 +13,6 @@ public class Beer {
         String nameID;
         String tipo;
         String brewery;
-        String posizione;
-        GeoPt  geoPt;
         String indirizzoweb;
         String fermentazione;
         String grado;
@@ -44,22 +42,6 @@ public class Beer {
 
     public void setBrewery(String brewery) {
         this.brewery = brewery;
-    }
-
-    public String getPosizione() {
-        return posizione;
-    }
-
-    public void setPosizione(String posizione) {
-        this.posizione = posizione;
-    }
-
-    public GeoPt getGeoPt() {
-        return geoPt;
-    }
-
-    public void setGeoPt(GeoPt geoPt) {
-        this.geoPt = geoPt;
     }
 
     public String getIndirizzoweb() {
