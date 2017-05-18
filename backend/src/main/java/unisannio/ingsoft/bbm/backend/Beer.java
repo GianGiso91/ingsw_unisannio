@@ -10,30 +10,30 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class Beer {
         @Id
-        String nameID;
-        String tipo;
+        String idbeer;
+        String type;
         String brewery;
-        String indirizzoweb;
-        String fermentazione;
-        String grado;
-        String colore;
-        String IBU;
-        String bicchiere;
+        String webaddress;
+        String fermentation;
+        float volume;
+        String color;
+        int ibu;
+        String glass;
 
-    public String getNameID() {
-        return nameID;
+    public String getIdbeer() {
+        return idbeer;
     }
 
-    public void setNameID(String nameID) {
-        this.nameID = nameID;
+    public void setIdbeer(String idbeer) {
+        this.idbeer = idbeer;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getBrewery() {
@@ -44,51 +44,51 @@ public class Beer {
         this.brewery = brewery;
     }
 
-    public String getIndirizzoweb() {
-        return indirizzoweb;
+    public String getWebaddress() {
+        return webaddress;
     }
 
-    public void setIndirizzoweb(String indirizzoweb) {
-        this.indirizzoweb = indirizzoweb;
+    public void setWebaddress(String webaddress) {
+        this.webaddress = webaddress;
     }
 
-    public String getFermentazione() {
-        return fermentazione;
+    public String getFermentation() {
+        return fermentation;
     }
 
-    public void setFermentazione(String fermentazione) {
-        this.fermentazione = fermentazione;
+    public void setFermentation(String fermentation) {
+        this.fermentation = fermentation;
     }
 
-    public String getGrado() {
-        return grado;
+    public float getVolume() {
+        return volume;
     }
 
-    public void setGrado(String grado) {
-        this.grado = grado;
+    public void setVolume(float volume) {
+        this.volume = volume;
     }
 
-    public String getColore() {
-        return colore;
+    public String getColor() {
+        return color;
     }
 
-    public void setColore(String colore) {
-        this.colore = colore;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public String getIBU() {
-        return IBU;
+    public int getIbu() {
+        return ibu;
     }
 
-    public void setIBU(String IBU) {
-        this.IBU = IBU;
+    public void setIbu(int ibu) {
+        this.ibu = ibu;
     }
 
-    public String getBicchiere() {
-        return bicchiere;
+    public String getGlass() {
+        return glass;
     }
 
-    public void setBicchiere(String bicchiere) {
-        this.bicchiere = bicchiere;
+    public void setGlass(String glass) {
+        this.glass = glass;
     }
 }

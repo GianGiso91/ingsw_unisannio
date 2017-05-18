@@ -4,57 +4,57 @@ import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
-
 /**
- * Created by gianluca on 17/05/2017.
+ * Created by Antonio on 19/05/2017.
  */
+
 @Entity
 public class Brewery {
     @Id
-    String nameBrewery;
-    String posizione;
-    GeoPt geoPt;
-    String indirizzoweb;
-    String[] birre;
+    private String idbrewery;
+    private String place;
+    private String webaddress;
+    private GeoPt geopt;
 
-    public String getNameBrewery() {
-        return nameBrewery;
+    public String getIdbrewery() {
+        return idbrewery;
     }
 
-    public String getPosizione() {
-        return posizione;
+    public void setIdbrewery(String idbrewery) {
+        this.idbrewery = idbrewery;
     }
 
-    public GeoPt getGeoPt() {
-        return geoPt;
+    public String getPlace() {
+        return place;
     }
 
-    public String getIndirizzoweb() {
-        return indirizzoweb;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
-    public String[] getBirre() {
-        return birre;
+    public String getWebaddress() {
+        return webaddress;
     }
 
-    public void setNameBrewery(String nameBrewery) {
-        this.nameBrewery = nameBrewery;
+    public void setWebaddress(String webaddress) {
+        this.webaddress = webaddress;
     }
 
-    public void setPosizione(String posizione) {
-        this.posizione = posizione;
+    public GeoPt getGeopt() {
+        return geopt;
     }
 
-    public void setGeoPt(GeoPt geoPt) {
-        this.geoPt = geoPt;
+    public void setGeopt(GeoPt geopt) {
+        this.geopt = geopt;
     }
 
-    public void setIndirizzoweb(String indirizzoweb) {
-        this.indirizzoweb = indirizzoweb;
+    public String[] getBeers() {
+        return beers;
     }
 
-    public void setBirre(String[] birre) {
-        this.birre = birre;
+    public void setBeers(String[] beers) {
+        this.beers = beers;
     }
 
+    private String[] beers;
 }

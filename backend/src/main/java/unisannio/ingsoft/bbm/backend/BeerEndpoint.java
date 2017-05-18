@@ -50,19 +50,19 @@ public class BeerEndpoint {
     /**
      * Returns the {@link Beer} with the corresponding ID.
      *
-     * @param nameID the ID of the entity to be retrieved
+     * @param idbeer the ID of the entity to be retrieved
      * @return the entity with the corresponding ID
      * @throws NotFoundException if there is no {@code Beer} with the provided ID.
      */
     @ApiMethod(
             name = "get",
-            path = "beer/{nameID}",
+            path = "beer/{idbeer}",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public Beer get(@Named("nameID") String nameID) throws NotFoundException {
-        logger.info("Getting Beer with ID: " + nameID);
-        Beer beer = ofy().load().type(Beer.class).id(nameID).now();
+    public Beer get(@Named("idbeer") String idbeer) throws NotFoundException {
+        logger.info("Getting Beer with ID: " + idbeer);
+        Beer beer = ofy().load().type(Beer.class).id(idbeer).now();
         if (beer == null) {
-            throw new NotFoundException("Could not find Beer with ID: " + nameID);
+            throw new NotFoundException("Could not find Beer with ID: " + idbeer);
         }
         return beer;
     }
@@ -76,12 +76,12 @@ public class BeerEndpoint {
             httpMethod = ApiMethod.HttpMethod.POST)
     public Beer insert(Beer beer) {
         // Typically in a RESTful API a POST does not have a known ID (assuming the ID is used in the resource path).
-        // You should validate that beer.nameID has not been set. If the ID type is not supported by the
+        // You should validate that beer.idbeer has not been set. If the ID type is not supported by the
         // Objectify ID generator, e.g. long or String, then you should generate the unique ID yourself prior to saving.
         //
         // If your client provides the ID then you should probably use PUT instead.
         ofy().save().entity(beer).now();
-        logger.info("Created Beer with ID: " + beer.getNameID());
+        logger.info("Created Beer with ID: " + beer.getIdbeer());
 
         return ofy().load().entity(beer).now();
     }
@@ -89,19 +89,19 @@ public class BeerEndpoint {
     /**
      * Updates an existing {@code Beer}.
      *
-     * @param nameID the ID of the entity to be updated
+     * @param idbeer the ID of the entity to be updated
      * @param beer   the desired state of the entity
      * @return the updated version of the entity
-     * @throws NotFoundException if the {@code nameID} does not correspond to an existing
+     * @throws NotFoundException if the {@code idbeer} does not correspond to an existing
      *                           {@code Beer}
      */
     @ApiMethod(
             name = "update",
-            path = "beer/{nameID}",
+            path = "beer/{idbeer}",
             httpMethod = ApiMethod.HttpMethod.PUT)
-    public Beer update(@Named("nameID") String nameID, Beer beer) throws NotFoundException {
+    public Beer update(@Named("idbeer") String idbeer, Beer beer) throws NotFoundException {
         // TODO: You should validate your ID parameter against your resource's ID here.
-        checkExists(nameID);
+        checkExists(idbeer);
         ofy().save().entity(beer).now();
         logger.info("Updated Beer: " + beer);
         return ofy().load().entity(beer).now();
@@ -110,18 +110,18 @@ public class BeerEndpoint {
     /**
      * Deletes the specified {@code Beer}.
      *
-     * @param nameID the ID of the entity to delete
-     * @throws NotFoundException if the {@code nameID} does not correspond to an existing
+     * @param idbeer the ID of the entity to delete
+     * @throws NotFoundException if the {@code idbeer} does not correspond to an existing
      *                           {@code Beer}
      */
     @ApiMethod(
             name = "remove",
-            path = "beer/{nameID}",
+            path = "beer/{idbeer}",
             httpMethod = ApiMethod.HttpMethod.DELETE)
-    public void remove(@Named("nameID") String nameID) throws NotFoundException {
-        checkExists(nameID);
-        ofy().delete().type(Beer.class).id(nameID).now();
-        logger.info("Deleted Beer with ID: " + nameID);
+    public void remove(@Named("idbeer") String idbeer) throws NotFoundException {
+        checkExists(idbeer);
+        ofy().delete().type(Beer.class).id(idbeer).now();
+        logger.info("Deleted Beer with ID: " + idbeer);
     }
 
     /**
@@ -149,11 +149,11 @@ public class BeerEndpoint {
         return CollectionResponse.<Beer>builder().setItems(beerList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
-    private void checkExists(String nameID) throws NotFoundException {
+    private void checkExists(String idbeer) throws NotFoundException {
         try {
-            ofy().load().type(Beer.class).id(nameID).safe();
+            ofy().load().type(Beer.class).id(idbeer).safe();
         } catch (com.googlecode.objectify.NotFoundException e) {
-            throw new NotFoundException("Could not find Beer with ID: " + nameID);
+            throw new NotFoundException("Could not find Beer with ID: " + idbeer);
         }
     }
 }
