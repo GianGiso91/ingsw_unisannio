@@ -15,6 +15,7 @@ public class Brewery {
     private String place;
     private String webaddress;
     private GeoPt geopt;
+    private String[] beers;
 
     public String getIdbrewery() {
         return idbrewery;
@@ -56,5 +57,5 @@ public class Brewery {
         this.beers = beers;
     }
 
-    private String[] beers;
+
 }
