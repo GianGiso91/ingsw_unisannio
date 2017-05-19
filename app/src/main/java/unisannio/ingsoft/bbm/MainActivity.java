@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Pair;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import java.io.IOException;
+import java.util.List;
 
 import unisannio.ingsoft.bbm.backend.beerApi.BeerApi;
+import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
+import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseBeer;
 
 public class MainActivity extends Activity {
 
@@ -23,16 +22,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Leffe"));
+        new EndpointsAsyncTask().execute(this);
     }
 }
 
-class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Integer, String> {
+class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBeer> {
     private static BeerApi myApiService = null;
     private Context context;
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected CollectionResponseBeer doInBackground(Context... params) {
         if(myApiService == null) {  // Only do this once
             BeerApi.Builder builder = new BeerApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -50,19 +49,17 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Strin
             myApiService = builder.build();
         }
 
-        context = params[0].first;
-        String name = params[0].second;
+        context = params[0];
 
         try {
-            return myApiService.get(name).execute().getFermentazione();
+            return myApiService.list().execute();
         } catch (IOException e) {
-            return e.getMessage();
+            return null;
         }
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        System.out.println(result);
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+    protected void onPostExecute(CollectionResponseBeer result) {
+        List<Beer> beers = result.getItems();
     }
 }

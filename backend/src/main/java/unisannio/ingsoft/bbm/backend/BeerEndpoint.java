@@ -40,7 +40,7 @@ public class BeerEndpoint {
 
     private static final Logger logger = Logger.getLogger(BeerEndpoint.class.getName());
 
-    private static final int DEFAULT_LIST_LIMIT = 20;
+    private static final int DEFAULT_LIST_LIMIT = 50;
 
     static {
         // Typically you would register this inside an OfyServive wrapper. See: https://code.google.com/p/objectify-appengine/wiki/BestPractices
@@ -146,6 +146,7 @@ public class BeerEndpoint {
         while (queryIterator.hasNext()) {
             beerList.add(queryIterator.next());
         }
+
         return CollectionResponse.<Beer>builder().setItems(beerList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
