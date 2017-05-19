@@ -146,6 +146,7 @@ public class BeerEndpoint {
         while (queryIterator.hasNext()) {
             beerList.add(queryIterator.next());
         }
+        //
 
         return CollectionResponse.<Beer>builder().setItems(beerList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }

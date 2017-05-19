@@ -1,4 +1,4 @@
-package unisannio.ingsoft.bbm; /**
+package unisannio.ingsoft.bbm.backend; /**
  * Created by gianluca on 19/05/2017.
  */
 import junit.framework.TestCase;

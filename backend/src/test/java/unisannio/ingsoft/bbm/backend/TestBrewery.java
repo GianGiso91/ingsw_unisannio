@@ -1,4 +1,4 @@
-package unisannio.ingsoft.bbm;
+package unisannio.ingsoft.bbm.backend;
 
 import com.google.appengine.api.datastore.GeoPt;
 
