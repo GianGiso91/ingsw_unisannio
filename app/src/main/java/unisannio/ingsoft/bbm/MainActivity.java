@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -30,6 +33,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseB
     private static BeerApi myApiService = null;
     private Context context;
 
+
     @Override
     protected CollectionResponseBeer doInBackground(Context... params) {
         if(myApiService == null) {  // Only do this once
@@ -51,6 +55,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseB
 
         context = params[0];
 
+
         try {
             return myApiService.list().execute();
         } catch (IOException e) {
@@ -61,5 +66,10 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseB
     @Override
     protected void onPostExecute(CollectionResponseBeer result) {
         List<Beer> beers = result.getItems();
+        ListView listView = (ListView)((MainActivity) context).findViewById(R.id.listView_beer);
+        BeerListAdapter listBeerAdapter = new BeerListAdapter((MainActivity) context,R.layout.beer_row_item,beers);
+        listView.setAdapter(listBeerAdapter);
+
+
     }
 }
