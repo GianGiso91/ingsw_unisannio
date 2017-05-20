@@ -24,13 +24,11 @@ public class BeerListAdapter extends ArrayAdapter{
     private int resource;
     private LayoutInflater inflater;
     private Context context;
-    private List<Beer>beers;
+    private List<String>beers;
 
-    public BeerListAdapter ( Context ctx, int resourceId, List<Beer> objects) {
+    public BeerListAdapter (Context ctx, int resourceId, List<String> objects) {
 
-        super( ctx, resourceId, objects );
-        this.context = context;
-        this.resource = resource;
+        super(ctx, resourceId, objects);
         this.beers = objects;
     }
 
@@ -40,10 +38,9 @@ public class BeerListAdapter extends ArrayAdapter{
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(resource, parent, false);
-        Beer beer=beers.get(position);
-        String beerName=beer.getIdbeer();
-        TextView textView = (TextView) rowView.findViewById(R.id.beerName);
-        textView.setText(beerName);
+        String beer=beers.get(position);
+        //TextView textView = (TextView) rowView.findViewById(R.id.beerName);
+        //textView.setText(beer);
 
 
         return convertView;

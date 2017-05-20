@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 25
@@ -24,14 +23,6 @@ android {
             testCoverageEnabled true
         }
     }
-
-    testOptions {
-            unitTests.all {
-                jacoco {
-                    includeNoLocationClasses = true
-                }
-            }
-    }
 }
 
 configurations {
@@ -48,6 +39,7 @@ dependencies {
     compile group: 'com.google.api-client', name: 'google-api-client', version: '1.19.1'
     compile group: 'com.google.http-client', name: 'google-http-client-android', version: '1.22.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.3.2'
     compile project(path: ':backend', configuration: 'android-endpoints')
 }
 
@@ -147,22 +139,4 @@ task pmd(type: Pmd) {
     }
 
     group = 'Code Quality'
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
 }

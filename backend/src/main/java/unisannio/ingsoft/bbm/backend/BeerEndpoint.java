@@ -7,8 +7,10 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +151,23 @@ public class BeerEndpoint {
         //
 
         return CollectionResponse.<Beer>builder().setItems(beerList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
+    }
+
+    @ApiMethod(
+            name = "listId",
+            path = "beerids",
+            httpMethod = ApiMethod.HttpMethod.GET)
+    public CollectionResponse<String> listId(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+        limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
+        QueryKeys<Beer> query = ofy().load().type(Beer.class).limit(limit).keys();
+        QueryResultIterator<Key<Beer>> queryIterator = query.iterator();
+        List<String> beerIdList = new ArrayList<String>(limit);
+        while (queryIterator.hasNext()) {
+            beerIdList.add(queryIterator.next().getName());
+        }
+        //
+
+        return CollectionResponse.<String>builder().setItems(beerIdList).setNextPageToken(queryIterator.getCursor().toWebSafeString()).build();
     }
 
     private void checkExists(String idbeer) throws NotFoundException {

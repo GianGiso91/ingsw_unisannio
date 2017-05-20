@@ -12,11 +12,13 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.List;
 
 import unisannio.ingsoft.bbm.backend.beerApi.BeerApi;
 import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
 import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseBeer;
+import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseString;
 
 public class MainActivity extends Activity {
 
@@ -29,13 +31,13 @@ public class MainActivity extends Activity {
     }
 }
 
-class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBeer> {
+class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseString> {
     private static BeerApi myApiService = null;
     private Context context;
 
 
     @Override
-    protected CollectionResponseBeer doInBackground(Context... params) {
+    protected CollectionResponseString doInBackground(Context... params) {
         if(myApiService == null) {  // Only do this once
             BeerApi.Builder builder = new BeerApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -57,19 +59,19 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseB
 
 
         try {
-            return myApiService.list().execute();
+            return myApiService.listId().execute();
         } catch (IOException e) {
             return null;
         }
     }
 
     @Override
-    protected void onPostExecute(CollectionResponseBeer result) {
-        List<Beer> beers = result.getItems();
+    protected void onPostExecute(CollectionResponseString result) {
+        List<String> beers = result.getItems();
         ListView listView = (ListView)((MainActivity) context).findViewById(R.id.listView_beer);
-        BeerListAdapter listBeerAdapter = new BeerListAdapter((MainActivity) context,R.layout.beer_row_item,beers);
-        listView.setAdapter(listBeerAdapter);
-
-
+        BeerListAdapter listBeerAdapter;
+        ArrayAdapter<String> a = new ArrayAdapter<String>((MainActivity) context, R.layout.beer_row_item, beers);
+        //listBeerAdapter = new BeerListAdapter((MainActivity) context, R.layout.beer_row_item, beers);
+        listView.setAdapter(a);
     }
 }
