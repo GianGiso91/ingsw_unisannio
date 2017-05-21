@@ -15,7 +15,7 @@ general:
         #- /home/ubuntu/ingw_unisannio/app/build/outputs/apk/
         - /home/ubuntu/ingsw_unisannio/app/build/reports/
         - /home/ubuntu/ingsw_unisannio/backend/build/reports/
-        - /home/ubuntu/ingsw_unisannio/backend/build/outputs/
+        - /home/ubuntu/ingsw_unisannio/app/build/outputs/
 
 machine:
     environment:
@@ -43,5 +43,7 @@ dependencies:
 
 test:
      override:
-        - ./gradlew build
-        - ./gradlew findBugs
+        - ./gradlew checkStyleMain
+        - ./gradlew assemble findBugs
+        - ./gradlew pmd
+        - ./gradlew test
