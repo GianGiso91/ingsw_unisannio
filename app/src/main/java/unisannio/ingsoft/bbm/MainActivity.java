@@ -69,9 +69,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
     protected void onPostExecute(CollectionResponseString result) {
         List<String> beers = result.getItems();
         ListView listView = (ListView)((MainActivity) context).findViewById(R.id.listView_beer);
-        BeerListAdapter listBeerAdapter;
-        ArrayAdapter<String> a = new ArrayAdapter<String>((MainActivity) context, R.layout.beer_row_item, beers);
-        //listBeerAdapter = new BeerListAdapter((MainActivity) context, R.layout.beer_row_item, beers);
-        listView.setAdapter(a);
+        BeerListAdapter listBeerAdapter = new BeerListAdapter((MainActivity) context, R.layout.beer_row_item, beers);
+        listView.setAdapter(listBeerAdapter);
     }
 }
