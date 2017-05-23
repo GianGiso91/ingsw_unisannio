@@ -2,32 +2,49 @@ package unisannio.ingsoft.bbm;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.List;
 
 import unisannio.ingsoft.bbm.backend.beerApi.BeerApi;
-import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
-import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseBeer;
 import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseString;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         new EndpointsAsyncTask().execute(this);
+
+
+        AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view,
+                                    int position, long id) {
+                TextView v = (TextView) view.findViewById(R.id.textViewIdBeer);
+                Intent intent = new Intent(MainActivity.this, InfoBeerActivity.class);
+                intent.putExtra("Beer", v.getText());
+                startActivity(intent);
+            }
+        };
+
+        ListView listView = (ListView)findViewById(R.id.listView_beer);
+        listView.setOnItemClickListener(clickListener);
+
     }
 }
 
@@ -57,7 +74,6 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
 
         context = params[0];
 
-
         try {
             return myApiService.listId().execute();
         } catch (IOException e) {
@@ -73,3 +89,4 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
         listView.setAdapter(listBeerAdapter);
     }
 }
+

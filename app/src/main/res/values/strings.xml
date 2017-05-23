@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BBM</string>
+    <string name="title_activity_info_beer">Info on the selected beer</string>
+    <string name="beer_name">Beer name: </string>
+    <string name="beer_type">Type: </string>
+    <string name="beer_brewery">Brewery: </string>
+    <string name="beer_webaddress">Web address: </string>
+    <string name="beer_fermentation">Fermentation: </string>
+    <string name="beer_color">Color: </string>
+    <string name="beer_ibu">Ibu: </string>
+    <string name="beer_glass">Glass: </string>
+    <string name="beer_volume">Volume: </string>
+
 </resources>
