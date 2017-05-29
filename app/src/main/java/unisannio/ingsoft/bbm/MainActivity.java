@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,11 +24,15 @@ import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseString;
 
 public class MainActivity extends Activity{
 
+    public LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        layout = (LinearLayout) findViewById(R.id.progressbar_view);
         new EndpointsAsyncTask().execute(this);
+
 
 
         AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
@@ -83,6 +88,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
 
     @Override
     protected void onPostExecute(CollectionResponseString result) {
+        ((MainActivity) context).layout.setVisibility(View.GONE);
         List<String> beers = result.getItems();
         ListView listView = (ListView)((MainActivity) context).findViewById(R.id.listView_beer);
         BeerListAdapter listBeerAdapter = new BeerListAdapter((MainActivity) context, R.layout.beer_row_item, beers);

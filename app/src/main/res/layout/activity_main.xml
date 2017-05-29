@@ -9,6 +9,37 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="73dp">
 
+    <LinearLayout
+        android:id="@+id/progressbar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@mipmap/bbm"
+                android:id="@+id/imageView"
+                android:layout_above="@+id/progressBar" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleInverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
     <ListView
         android:id="@+id/listView_beer"
         android:layout_width="match_parent"
