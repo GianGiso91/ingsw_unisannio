@@ -19,17 +19,22 @@ import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
 
 public class InfoBeerActivity extends Activity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_beer);
+
         String beerid = getIntent().getStringExtra("Beer");
         new InfoBeerAsyncTask().execute(new Pair(this,beerid));
-    }
 
+    }
 }
 
 class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> {
+
+
+
     private static BeerApi myApiService = null;
     private Context context;
 
@@ -57,9 +62,13 @@ class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> 
 
         try {
             return myApiService.get(idbeer).execute();
+
+
         } catch (IOException e) {
             return null;
         }
+
+
     }
 
     @Override
@@ -77,10 +86,10 @@ class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> 
         TextView v5 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_volume);
         v5.setText(v5.getText() + Float.toString(result.getVolume()) + "%");
         TextView v6 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_color);
-        String color = (result.getColor() == null) ? "NaN" : result.getColor();
-        v6.setText(v6.getText() + color);
+        String color = "NaN";
+        if(result.getColor()!=null);v6.setText(v6.getText() + color);
         TextView v7 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_ibu);
-        String ibu = "Nan";
+        String ibu = "NaN";
         if(result.getIbu() != 0)
             ibu = Integer.toString(result.getIbu());
         v7.setText(v7.getText() + ibu);
