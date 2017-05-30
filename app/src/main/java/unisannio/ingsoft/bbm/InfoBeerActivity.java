@@ -5,6 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -19,11 +23,14 @@ import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
 
 public class InfoBeerActivity extends Activity {
 
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_beer);
+
+        layout = (LinearLayout) findViewById(R.id.progressbar_view);
 
         String beerid = getIntent().getStringExtra("Beer");
         new InfoBeerAsyncTask().execute(new Pair(this,beerid));
@@ -37,6 +44,7 @@ class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> 
 
     private static BeerApi myApiService = null;
     private Context context;
+
 
     @Override
     protected Beer doInBackground(Pair<Context, String>... params) {
@@ -73,6 +81,7 @@ class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> 
 
     @Override
     protected void onPostExecute(Beer result) {
+        ((InfoBeerActivity) context).layout.setVisibility(View.GONE);
         TextView v = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_name);
         v.setText(v.getText() + result.getIdbeer());
         TextView v1 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_type);

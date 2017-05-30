@@ -11,6 +11,36 @@
     tools:layout_editor_absoluteY="73dp">
 
 
+    <LinearLayout
+        android:id="@+id/progressbar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/progressBar"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Loading data..." />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/beer_name"
         android:layout_width="match_parent"
