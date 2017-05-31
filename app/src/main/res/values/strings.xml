@@ -11,4 +11,7 @@
     <string name="beer_glass">Glass: </string>
     <string name="beer_volume">Volume: </string>
 
+    <string name="beer_search">Search for name...</string>
+    <string name="beer_hint">Beer name...</string>
+
 </resources>
