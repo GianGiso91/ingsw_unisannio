@@ -23,6 +23,9 @@ android {
             testCoverageEnabled true
         }
     }
+    dataBinding{
+        enabled=true
+    }
 }
 
 configurations {

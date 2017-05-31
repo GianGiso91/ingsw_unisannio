@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.databinding.*;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -21,8 +24,10 @@ import java.util.List;
 
 import unisannio.ingsoft.bbm.backend.beerApi.BeerApi;
 import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseString;
+import unisannio.ingsoft.bbm.databinding.ActivityMainBinding;
 
 public class MainActivity extends Activity{
+    ActivityMainBinding activityMainBinding;
 
     public LinearLayout layout;
 
@@ -30,6 +35,15 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        activityMainBinding.search.setActivated(true);
+        activityMainBinding.search.setQueryHint("Type your keyword here");
+        activityMainBinding.search.onActionViewExpanded();
+        activityMainBinding.search.setIconified(false);
+        activityMainBinding.search.clearFocus();
+
         layout = (LinearLayout) findViewById(R.id.progressbar_view);
         new EndpointsAsyncTask().execute(this);
 
@@ -50,6 +64,7 @@ public class MainActivity extends Activity{
         ListView listView = (ListView)findViewById(R.id.listView_beer);
         listView.setOnItemClickListener(clickListener);
 
+        new EndpointsAsyncTask().execute(this);
     }
 }
 
@@ -88,11 +103,37 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
 
     @Override
     protected void onPostExecute(CollectionResponseString result) {
+
+        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView((MainActivity) context, R.layout.activity_main);
+      
         ((MainActivity) context).layout.setVisibility(View.GONE);
+      
         List<String> beers = result.getItems();
-        ListView listView = (ListView)((MainActivity) context).findViewById(R.id.listView_beer);
-        BeerListAdapter listBeerAdapter = new BeerListAdapter((MainActivity) context, R.layout.beer_row_item, beers);
+        ListView listView = (ListView) ((MainActivity) context).findViewById(R.id.list_View_beer);
+        final BeerListAdapter listBeerAdapter = new BeerListAdapter(beers);
         listView.setAdapter(listBeerAdapter);
+        activityMainBinding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listBeerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        activityMainBinding.listViewBeer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                TextView v = (TextView) view.findViewById(R.id.text_View_Id_Beer);
+                Intent intent = new Intent(((MainActivity) context), InfoBeerActivity.class);
+                intent.putExtra("Beer", v.getText());
+                
+                ((MainActivity) context).startActivity(intent);
+            }
+        });
     }
 }
-
