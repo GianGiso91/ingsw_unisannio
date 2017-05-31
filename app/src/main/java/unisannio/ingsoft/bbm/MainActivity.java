@@ -3,16 +3,15 @@ package unisannio.ingsoft.bbm;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.databinding.*;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -49,20 +48,7 @@ public class MainActivity extends Activity{
 
 
 
-        AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view,
-                                    int position, long id) {
-                TextView v = (TextView) view.findViewById(R.id.textViewIdBeer);
-                Intent intent = new Intent(MainActivity.this, InfoBeerActivity.class);
-                intent.putExtra("Beer", v.getText());
-                startActivity(intent);
-            }
-        };
-
-        ListView listView = (ListView)findViewById(R.id.listView_beer);
-        listView.setOnItemClickListener(clickListener);
 
         new EndpointsAsyncTask().execute(this);
     }
@@ -106,7 +92,8 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
 
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView((MainActivity) context, R.layout.activity_main);
       
-        ((MainActivity) context).layout.setVisibility(View.GONE);
+
+        activityMainBinding.progressbarView.setVisibility(View.GONE);
       
         List<String> beers = result.getItems();
         ListView listView = (ListView) ((MainActivity) context).findViewById(R.id.list_View_beer);
