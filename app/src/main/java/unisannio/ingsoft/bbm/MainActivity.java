@@ -6,12 +6,18 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -52,6 +58,34 @@ public class MainActivity extends Activity{
 
         new EndpointsAsyncTask().execute(this);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_brewerymap:
+                //Put the intent to the map activity here
+                Context context = getApplicationContext();
+                CharSequence text = "Should open MapActivity";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_act_menu, menu);
+        return true;
+    }
 }
 
 class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseString> {
@@ -89,17 +123,18 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
 
     @Override
     protected void onPostExecute(CollectionResponseString result) {
-
-        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView((MainActivity) context, R.layout.activity_main);
       
 
-        activityMainBinding.progressbarView.setVisibility(View.GONE);
+
+        LinearLayout pbv = (LinearLayout) ((MainActivity) context).findViewById(R.id.progressbar_view);
+        pbv.setVisibility(View.GONE);
       
         List<String> beers = result.getItems();
         ListView listView = (ListView) ((MainActivity) context).findViewById(R.id.list_View_beer);
         final BeerListAdapter listBeerAdapter = new BeerListAdapter(beers);
         listView.setAdapter(listBeerAdapter);
-        activityMainBinding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        SearchView sv = (SearchView) ((MainActivity) context).findViewById(R.id.search);
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -111,7 +146,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
                 return false;
             }
         });
-        activityMainBinding.listViewBeer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {

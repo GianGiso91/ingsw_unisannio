@@ -13,5 +13,6 @@
 
     <string name="beer_search">Search for name...</string>
     <string name="beer_hint">Beer name...</string>
+    <string name="action_brewerymap">Breweries Map</string>
 
 </resources>

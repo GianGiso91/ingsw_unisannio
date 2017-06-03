@@ -42,19 +42,20 @@
 
 
 
-                <SearchView
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true" />
+        <SearchView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true" />
 
 
 
-                <ListView
-                    android:id="@+id/list_View_beer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/search" />
-        </RelativeLayout>
+        <ListView
+            android:id="@+id/list_View_beer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/search" />
+
+    </RelativeLayout>
 </layout>
