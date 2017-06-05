@@ -21,13 +21,52 @@ runComponent = package + '/' + activity
 # Runs the component
 device.startActivity(component=runComponent)
 
+
+#Select a beer ("Chimay Red") to get it's info
+device.touch(150.0,316.0, MonkeyDevice.DOWN_AND_UP)
+
 #We need to sleep here, to make sure we will get the correct screenshot
 MonkeyRunner.sleep(5)
-# Presses the Menu button
-device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
 
 # Takes a screenshot
 result = device.takeSnapshot()
 
 # Writes the screenshot to a file
-result.writeToFile('C:\\Users\\gianluca\\Desktop\\test.py\\shot1.png','png')
+result.writeToFile('C:\\Users\\gianluca\\Desktop\\UI_TEST\\infobeer.png','png')
+
+#Go Back to Main Activity
+device.touch(51.0,85.0, MonkeyDevice.DOWN_AND_UP)
+
+#We need to sleep here, to make sure we will get the correct screenshot
+MonkeyRunner.sleep(5)
+
+# Takes a screenshot
+result = device.takeSnapshot()
+
+result.writeToFile('C:\\Users\\gianluca\\Desktop\\UI_TEST\\main.png','png')
+
+MonkeyRunner.sleep(5)
+#Filter Beer by Typing keyword in the searchview
+device.touch(90.0,160.0, MonkeyDevice.DOWN_AND_UP)
+#In this test case was type letter "d"
+device.touch(152.0,610.0,MonkeyDevice.DOWN_AND_UP)
+#We need to sleep here, to make sure we will get the correct screenshot
+MonkeyRunner.sleep(5)
+# Takes a screenshot
+result = device.takeSnapshot()
+result.writeToFile('C:\\Users\\gianluca\\Desktop\\UI_TEST\\filter_beer.png','png')
+
+#Reset searchview, by press on "X"
+device.touch(433.0,154.0, MonkeyDevice.DOWN_AND_UP)
+MonkeyRunner.sleep(2)
+#Press on Action Bar button "Breweries Map" to go to mapActivity
+device.touch(247.0,86.0, MonkeyDevice.DOWN_AND_UP)
+
+#We need to sleep here, to make sure we will get the correct screenshot
+MonkeyRunner.sleep(5)
+# Takes a screenshot
+result = device.takeSnapshot()
+
+result.writeToFile('C:\\Users\\gianluca\\Desktop\\UI_TEST\\map.png','png')
+
+
