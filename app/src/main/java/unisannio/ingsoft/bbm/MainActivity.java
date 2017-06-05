@@ -6,18 +6,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -66,8 +63,8 @@ public class MainActivity extends Activity{
         switch (item.getItemId()) {
             case R.id.action_brewerymap:
                 //Put the intent to the map activity here
-                Intent map_intent = new Intent(((MainActivity) context), MapsActivity.class);
-                ((MainActivity) context).startActivity(map_intent);
+                Intent map_intent = new Intent(this, MapsActivity.class);
+                this.startActivity(map_intent);
                 return true;
 
             default:
@@ -122,9 +119,6 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
 
     @Override
     protected void onPostExecute(CollectionResponseString result) {
-      
-
-        activityMainBinding.progressbarView.setVisibility(View.GONE);
 
 
         LinearLayout pbv = (LinearLayout) ((MainActivity) context).findViewById(R.id.progressbar_view);

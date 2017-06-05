@@ -46,12 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         new EndAsyncTask().execute(this);
-
-
-
-
-
-        new EndAsyncTask().execute(this);
     }
 
 
@@ -68,8 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng bruxelles=new LatLng(50.85034,4.35171
-        );
+        LatLng bruxelles=new LatLng(50.85034,4.35171);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bruxelles,6));
     }
 
