@@ -49,7 +49,9 @@ public class MainActivity extends Activity{
         activityMainBinding.search.setIconified(false);
         activityMainBinding.search.clearFocus();
 
+
         layout = (LinearLayout) findViewById(R.id.progressbar_view);
+
         new EndpointsAsyncTask().execute(this);
 
 
@@ -64,12 +66,8 @@ public class MainActivity extends Activity{
         switch (item.getItemId()) {
             case R.id.action_brewerymap:
                 //Put the intent to the map activity here
-                Context context = getApplicationContext();
-                CharSequence text = "Should open MapActivity";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                Intent map_intent = new Intent(((MainActivity) context), MapsActivity.class);
+                ((MainActivity) context).startActivity(map_intent);
                 return true;
 
             default:
@@ -86,6 +84,7 @@ public class MainActivity extends Activity{
         inflater.inflate(R.menu.main_act_menu, menu);
         return true;
     }
+
 }
 
 class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseString> {
@@ -125,10 +124,12 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
     protected void onPostExecute(CollectionResponseString result) {
       
 
+        activityMainBinding.progressbarView.setVisibility(View.GONE);
+
 
         LinearLayout pbv = (LinearLayout) ((MainActivity) context).findViewById(R.id.progressbar_view);
         pbv.setVisibility(View.GONE);
-      
+
         List<String> beers = result.getItems();
         ListView listView = (ListView) ((MainActivity) context).findViewById(R.id.list_View_beer);
         final BeerListAdapter listBeerAdapter = new BeerListAdapter(beers);
@@ -153,8 +154,8 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
                 TextView v = (TextView) view.findViewById(R.id.text_View_Id_Beer);
                 Intent intent = new Intent(((MainActivity) context), InfoBeerActivity.class);
                 intent.putExtra("Beer", v.getText());
-                
                 ((MainActivity) context).startActivity(intent);
+
             }
         });
     }
