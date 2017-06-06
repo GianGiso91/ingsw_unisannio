@@ -56,11 +56,11 @@ public class MainActivityTest {
     @Test
     public void testNormalFlow() throws Exception {
         AsyncTask<Context, Integer, CollectionResponseString> asyncTask = new EndpointsAsyncTask();
-        assertThat(asyncTask.getStatus()).isEqualTo(AsyncTask.Status.PENDING);
+        assertEquals(asyncTask.getStatus(),AsyncTask.Status.PENDING);
         asyncTask.execute(activity);
-        assertThat(asyncTask.getStatus()).isEqualTo(AsyncTask.Status.RUNNING);
+        assertEquals(asyncTask.getStatus(),AsyncTask.Status.RUNNING);
         Robolectric.getBackgroundThreadScheduler().unPause();
-        assertThat(asyncTask.getStatus()).isEqualTo(AsyncTask.Status.FINISHED);
+        assertEquals(asyncTask.getStatus(),AsyncTask.Status.FINISHED);;
     }
 
     @Test
@@ -81,7 +81,6 @@ public class MainActivityTest {
 
     @Test
     public void shouldActivityStartedOnMenuItem() {
-        MainActivity activity = Robolectric.setupActivity(MainActivity.class);
         // The intent we expect to be launched when a user clicks on the button "Breweries Map"
         Intent expectedIntent = new Intent(activity, MapsActivity.class);
         MenuItem menuItem = new RoboMenuItem(R.id.action_brewerymap);
@@ -90,5 +89,4 @@ public class MainActivityTest {
         Intent actualIntent = shadowActivity.getNextStartedActivity();
         assertTrue(actualIntent.filterEquals(expectedIntent));
     }
-
 }

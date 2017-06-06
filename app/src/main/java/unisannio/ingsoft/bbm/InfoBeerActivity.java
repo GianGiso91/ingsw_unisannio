@@ -6,9 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
-import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -39,8 +37,6 @@ public class InfoBeerActivity extends Activity {
 }
 
 class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> {
-
-
 
     private static BeerApi myApiService = null;
     private Context context;

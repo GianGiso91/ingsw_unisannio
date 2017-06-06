@@ -50,12 +50,6 @@ public class MainActivity extends Activity{
         layout = (LinearLayout) findViewById(R.id.progressbar_view);
 
         new EndpointsAsyncTask().execute(this);
-
-
-
-
-
-        new EndpointsAsyncTask().execute(this);
     }
 
     @Override

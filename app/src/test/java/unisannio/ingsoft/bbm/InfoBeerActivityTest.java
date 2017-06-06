@@ -1,20 +1,22 @@
 package unisannio.ingsoft.bbm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Pair;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by gianluca on 04/06/2017.
@@ -28,7 +30,9 @@ public class InfoBeerActivityTest {
 
         @Before
         public void setup() {
-            activity = Robolectric.buildActivity(InfoBeerActivity.class).create().get();
+            Intent intent = new Intent(RuntimeEnvironment.application, InfoBeerActivity.class);
+            intent.putExtra("Beer", "Chimay Red");
+            activity = Robolectric.buildActivity(InfoBeerActivity.class).withIntent(intent).create().get();
             Robolectric.getBackgroundThreadScheduler().pause();
             Robolectric.getForegroundThreadScheduler().pause();
 
@@ -48,11 +52,11 @@ public class InfoBeerActivityTest {
         @Test
         public void testNormalFlow() throws Exception {
             AsyncTask<android.util.Pair<Context, String>, Integer, Beer> asyncTask = new InfoBeerAsyncTask();
-            assertThat(asyncTask.getStatus()).isEqualTo(AsyncTask.Status.PENDING);
-            asyncTask.execute((Runnable) activity);
-            assertThat(asyncTask.getStatus()).isEqualTo(AsyncTask.Status.RUNNING);
+            assertEquals(asyncTask.getStatus(),AsyncTask.Status.PENDING);
+            asyncTask.execute(new Pair(activity,"ciao"));
+            assertEquals(asyncTask.getStatus(),AsyncTask.Status.RUNNING);
             Robolectric.getBackgroundThreadScheduler().unPause();
-            assertThat(asyncTask.getStatus()).isEqualTo(AsyncTask.Status.FINISHED);
+            assertEquals(asyncTask.getStatus(),AsyncTask.Status.FINISHED);
         }
 
 

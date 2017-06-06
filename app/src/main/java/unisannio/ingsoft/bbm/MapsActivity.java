@@ -1,16 +1,9 @@
 package unisannio.ingsoft.bbm;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +19,6 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 import java.util.List;
-
 
 import unisannio.ingsoft.bbm.backend.breweryApi.BreweryApi;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.CollectionResponseBrewery;
@@ -62,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng bruxelles=new LatLng(50.85034,4.35171);
+        LatLng bruxelles = new LatLng(50.85034,4.35171);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bruxelles,6));
     }
 
