@@ -6,6 +6,11 @@ apply plugin: 'pmd'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+    }
     defaultConfig {
         applicationId "unisannio.ingsoft.bbm"
         minSdkVersion 17
@@ -22,6 +27,7 @@ android {
         }
         debug {
             testCoverageEnabled true
+            signingConfig signingConfigs.debug
         }
     }
     dataBinding {
