@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,9 +26,10 @@ import unisannio.ingsoft.bbm.backend.breweryApi.BreweryApi;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.CollectionResponseBrewery;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.GeoPt;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +59,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng bruxelles = new LatLng(50.85034,4.35171);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bruxelles,6));
+
+        // Aggiunto
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
+        {
+
+            @Override
+            public boolean onMarkerClick(Marker mark) {
+
+                /*Dialog dialog= new Dialog (MapsActivity.this);
+                dialog.setTitle("Brewery's info");
+                dialog.setContentView(R.layout.dialog_info_brewery);
+                TextView v= (TextView)dialog.findViewById(R.id.beer_brewery);
+                v.setText(v.getText()+ mark.getTitle());
+                TextView v1= (TextView)dialog.findViewById(R.id.beer_webaddress);
+                v1.setText(v1.getText()+ mark.getSnippet());
+
+                dialog.show();*/
+
+                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                    @Override
+                    public View getInfoWindow(Marker marker) {
+                        View v = getLayoutInflater().inflate(R.layout.dialog_info_brewery,null);
+                        TextView tv = (TextView) v.findViewById(R.id.beer_brewery);
+                        tv.setText(tv.getText()+marker.getTitle());
+
+                        TextView tv1 = (TextView) v.findViewById(R.id.brewey_info);
+                        tv1.setText(marker.getSnippet());
+
+                        return v;
+                    }
+
+                    @Override
+                    public View getInfoContents(Marker marker) {
+                        return null;
+                    }
+                });
+                mark.showInfoWindow();
+                return true;
+            }
+
+        });
+        // Termine Aggiunta
+
     }
 
-    protected Marker createMarker(GeoPt coordinate, String title) {
 
-        return mMap.addMarker(new MarkerOptions()
+    protected Marker createMarker(GeoPt coordinate, String title,String snippet) {
+
+
+      return mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(coordinate.getLatitude(),coordinate.getLongitude()))
                 .anchor(0.5f, 0.5f)
                 .title(title)
-        );
+                .snippet(snippet));
+
     }
+
 
 }
 class EndAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBrewery> {
     private static BreweryApi myApiService = null;
     private Context context;
+
 
 
     @Override
@@ -107,8 +158,19 @@ class EndAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBrewery
 
         List<unisannio.ingsoft.bbm.backend.breweryApi.model.Brewery> brewery = result.getItems();
         for(unisannio.ingsoft.bbm.backend.breweryApi.model.Brewery b:brewery){
-            ((MapsActivity) context).createMarker(b.getGeopt(),b.getIdbrewery());
+            StringBuilder snippets = new StringBuilder();
+            snippets.append("WebAddress: "+ b.getWebaddress()+"\n");
+            snippets.append("Beers: "+ b.getBeers()+"\n");
+            snippets.append("Location: "+b.getPlace()+"\n");
+            String info = snippets.toString();
+            ((MapsActivity) context).createMarker(b.getGeopt(),b.getIdbrewery(),info);
+
         }
+
+
+
+
+
     }
 }
 
