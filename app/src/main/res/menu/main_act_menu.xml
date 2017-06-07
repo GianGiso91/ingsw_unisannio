@@ -6,4 +6,5 @@
         android:title="@string/action_brewerymap"
         android:showAsAction="ifRoom"/>
 
+
 </menu>

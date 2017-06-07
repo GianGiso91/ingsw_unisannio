@@ -30,7 +30,6 @@ import unisannio.ingsoft.bbm.databinding.ActivityMainBinding;
 
 public class MainActivity extends Activity{
     ActivityMainBinding activityMainBinding;
-
     public LinearLayout layout;
 
     @Override
@@ -122,7 +121,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
         ListView listView = (ListView) ((MainActivity) context).findViewById(R.id.list_View_beer);
         final BeerListAdapter listBeerAdapter = new BeerListAdapter(beers);
         listView.setAdapter(listBeerAdapter);
-        SearchView sv = (SearchView) ((MainActivity) context).findViewById(R.id.search);
+        SearchView sv = (SearchView)((MainActivity) context).findViewById(R.id.search);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
