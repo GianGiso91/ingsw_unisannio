@@ -20,7 +20,6 @@ import unisannio.ingsoft.bbm.backend.beerApi.model.CollectionResponseString;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by Antonio on 20/05/2017.
@@ -61,22 +60,6 @@ public class MainActivityTest {
         assertEquals(asyncTask.getStatus(),AsyncTask.Status.RUNNING);
         Robolectric.getBackgroundThreadScheduler().unPause();
         assertEquals(asyncTask.getStatus(),AsyncTask.Status.FINISHED);;
-    }
-
-    @Test
-    public void shouldActivityStartedOnView() {
-        activity.findViewById(R.id.text_View_Id_Beer).performClick();
-        // The intent we expect to be launched when a user clicks on the button
-        Intent expectedIntent = new Intent(activity, InfoBeerActivity.class);
-        // An Android "Activity" doesn't expose a way to find out about activities it launches
-        // Robolectric's "ShadowActivity" keeps track of all launched activities and exposes this information
-        // through the "getNextStartedActivity" method.
-        ShadowActivity shadowActivity = Shadows.shadowOf(activity);
-        Intent actualIntent = shadowActivity.getNextStartedActivity();
-        // Determine if two intents are the same for the purposes of intent resolution (filtering).
-        // That is, if their action, data, type, class, and categories are the same. This does
-        // not compare any extra data included in the intents
-        assertTrue(actualIntent.filterEquals(expectedIntent));
     }
 
     @Test
