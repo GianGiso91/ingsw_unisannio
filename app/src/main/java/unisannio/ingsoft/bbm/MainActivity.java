@@ -117,11 +117,13 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
         LinearLayout pbv = (LinearLayout) ((MainActivity) context).findViewById(R.id.progressbar_view);
         pbv.setVisibility(View.GONE);
 
+
         List<String> beers = result.getItems();
         ListView listView = (ListView) ((MainActivity) context).findViewById(R.id.list_View_beer);
         final BeerListAdapter listBeerAdapter = new BeerListAdapter(beers);
         listView.setAdapter(listBeerAdapter);
         SearchView sv = (SearchView)((MainActivity) context).findViewById(R.id.search);
+        sv.setVisibility(View.VISIBLE);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -134,6 +136,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Integer, CollectionResponseS
                 return false;
             }
         });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
