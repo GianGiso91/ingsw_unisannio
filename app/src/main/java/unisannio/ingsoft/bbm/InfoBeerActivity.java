@@ -82,6 +82,8 @@ class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> 
         v.setText(v.getText() + result.getIdbeer());
         TextView v1 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_type);
         v1.setText(v1.getText() + result.getType());
+        TextView v_brewery = (TextView) ((InfoBeerActivity) context).findViewById(R.id.brewery);
+        v1.setText(v1.getText() + result.getBrewery());
         TextView v2= (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_fermentation);
          v2.setText(v2.getText() + result.getFermentation());
         TextView v3 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_volume);
