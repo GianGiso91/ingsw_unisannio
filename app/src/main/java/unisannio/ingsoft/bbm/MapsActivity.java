@@ -1,16 +1,26 @@
 package unisannio.ingsoft.bbm;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -26,10 +36,12 @@ import unisannio.ingsoft.bbm.backend.breweryApi.BreweryApi;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.CollectionResponseBrewery;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.GeoPt;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Circle c;
     private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +54,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         new EndAsyncTask().execute(this);
     }
+
+
+
+
 
 
     /**
@@ -59,23 +75,82 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng bruxelles = new LatLng(50.85034,4.35171);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bruxelles,6));
+        /*mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener(){
+            @Override
+            public void onInfoWindowLongClick(Marker mark){
+
+            }
+        });*/
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(final LatLng latLng) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                builder.setTitle(R.string.title_radius_dialog).
+                        setItems(R.array.radius_list, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ListView lw = ((AlertDialog)dialog).getListView();
+                                String radius= lw.getItemAtPosition(which).toString();
+                                switch (radius) {
+                                    case ("10 km"):
+                                        drawRadius(latLng,10000);
+                                        break;
+                                    case ("20 km"):
+                                        drawRadius(latLng,20000);
+                                        break;
+                                    case ("30 km"):
+                                        drawRadius(latLng,30000);
+                                        break;
+                                    case ("40 km"):
+                                        drawRadius(latLng,40000);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            }
+
+                        });
+                builder.create().show();
+            }
+        });
+
 
         // Aggiunto
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
         {
 
             @Override
-            public boolean onMarkerClick(Marker mark) {
+            public boolean onMarkerClick(final Marker mark) {
 
-                /*Dialog dialog= new Dialog (MapsActivity.this);
-                dialog.setTitle("Brewery's info");
-                dialog.setContentView(R.layout.dialog_info_brewery);
-                TextView v= (TextView)dialog.findViewById(R.id.beer_brewery);
-                v.setText(v.getText()+ mark.getTitle());
-                TextView v1= (TextView)dialog.findViewById(R.id.beer_webaddress);
-                v1.setText(v1.getText()+ mark.getSnippet());
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                builder.setTitle(R.string.title_radius_dialog).
+                        setItems(R.array.radius_list, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ListView lw = ((AlertDialog)dialog).getListView();
+                                String radius= lw.getItemAtPosition(which).toString();
+                                switch (radius) {
+                                    case ("10 km"):
+                                        drawRadius(mark.getPosition(),10000);
+                                        break;
+                                    case ("20 km"):
+                                        drawRadius(mark.getPosition(),20000);
+                                        break;
+                                    case ("30 km"):
+                                        drawRadius(mark.getPosition(),30000);
+                                        break;
+                                    case ("40 km"):
+                                        drawRadius(mark.getPosition(),40000);
+                                        break;
 
-                dialog.show();*/
+                                    default:
+                                        break;
+                                }
+                            }
+
+                        });
+                builder.create().show();
+
 
                 mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
                     @Override
@@ -86,29 +161,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         TextView tv1 = (TextView) v.findViewById(R.id.brewey_info);
                         tv1.setText(marker.getSnippet());
-
                         return v;
                     }
+
+
 
                     @Override
                     public View getInfoContents(Marker marker) {
                         return null;
                     }
                 });
+
                 mark.showInfoWindow();
                 return true;
             }
 
         });
         // Termine Aggiunta
+    }
 
+    public void drawRadius(LatLng latLng,int radius) {
+        if (c != null)
+            c.remove();
+        c = mMap.addCircle(new CircleOptions()
+                .center(latLng)
+                .radius(radius)
+                .strokeColor(Color.RED));
     }
 
 
     protected Marker createMarker(GeoPt coordinate, String title,String snippet) {
 
 
-      return mMap.addMarker(new MarkerOptions()
+        return mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(coordinate.getLatitude(),coordinate.getLongitude()))
                 .anchor(0.5f, 0.5f)
                 .title(title)
@@ -118,6 +203,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 }
+
 class EndAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBrewery> {
     private static BreweryApi myApiService = null;
     private Context context;
@@ -173,4 +259,3 @@ class EndAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBrewery
 
     }
 }
-
