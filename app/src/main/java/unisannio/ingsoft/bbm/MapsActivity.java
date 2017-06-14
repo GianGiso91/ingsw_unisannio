@@ -1,6 +1,8 @@
 package unisannio.ingsoft.bbm;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -60,22 +62,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng bruxelles = new LatLng(50.85034,4.35171);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bruxelles,6));
 
-        // Aggiunto
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
         {
 
             @Override
             public boolean onMarkerClick(Marker mark) {
 
-                /*Dialog dialog= new Dialog (MapsActivity.this);
-                dialog.setTitle("Brewery's info");
-                dialog.setContentView(R.layout.dialog_info_brewery);
-                TextView v= (TextView)dialog.findViewById(R.id.beer_brewery);
-                v.setText(v.getText()+ mark.getTitle());
-                TextView v1= (TextView)dialog.findViewById(R.id.beer_webaddress);
-                v1.setText(v1.getText()+ mark.getSnippet());
-
-                dialog.show();*/
 
                 mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
                     @Override
@@ -95,12 +88,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         return null;
                     }
                 });
+
                 mark.showInfoWindow();
                 return true;
             }
 
         });
-        // Termine Aggiunta
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                String result=marker.getSnippet();
+                int newLineIndex = result.indexOf("\n");
+                String url=result.substring(12,newLineIndex);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+
+            }
+        });
 
     }
 
