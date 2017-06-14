@@ -16,5 +16,13 @@
     <string name="title_activity_maps">Map</string>
     <string name="action_brewerymap">Breweries Map</string>
 
+    <string name="title_radius_dialog">Radius List</string>
+
+    <array name="radius_list">
+        <item>10 km</item>
+        <item>20 km</item>
+        <item>30 km</item>
+        <item>40 km</item>
+    </array>
 
 </resources>
