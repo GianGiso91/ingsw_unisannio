@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -14,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,10 +29,8 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-
 import java.io.IOException;
 import java.util.List;
-
 import unisannio.ingsoft.bbm.backend.breweryApi.BreweryApi;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.CollectionResponseBrewery;
 import unisannio.ingsoft.bbm.backend.breweryApi.model.GeoPt;
@@ -116,7 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-        // Aggiunto
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
         {
 
@@ -151,6 +150,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         });
                 builder.create().show();
 
+            public boolean onMarkerClick(Marker mark) {
+
+
 
                 mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
                     @Override
@@ -177,8 +179,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         });
+
         // Termine Aggiunta
     }
+
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                String result=marker.getSnippet();
+                int newLineIndex = result.indexOf("\n");
+                String url=result.substring(12,newLineIndex);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+
+            }
+        });
+
 
     public void drawRadius(LatLng latLng,int radius) {
         if (c != null)
@@ -252,10 +271,5 @@ class EndAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBrewery
             ((MapsActivity) context).createMarker(b.getGeopt(),b.getIdbrewery(),info);
 
         }
-
-
-
-
-
     }
 }
