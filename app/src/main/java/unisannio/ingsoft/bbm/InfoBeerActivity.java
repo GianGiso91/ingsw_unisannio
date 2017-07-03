@@ -82,23 +82,23 @@ class InfoBeerAsyncTask extends AsyncTask<Pair<Context, String>, Integer, Beer> 
         v.setText(v.getText() + result.getIdbeer());
         TextView v1 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_type);
         v1.setText(v1.getText() + result.getType());
-        TextView v_brewery = (TextView) ((InfoBeerActivity) context).findViewById(R.id.brewery);
-        v1.setText(v1.getText() + result.getBrewery());
-        TextView v2= (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_fermentation);
-         v2.setText(v2.getText() + result.getFermentation());
-        TextView v3 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_volume);
-        v3.setText(v3.getText() + Float.toString(result.getVolume()) + "%");
-        TextView v4 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_color);
+        TextView v2 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.brewery);
+        v2.setText(v2.getText() + result.getBrewery());
+        TextView v3= (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_fermentation);
+        v3.setText(v3.getText() + result.getFermentation());
+        TextView v4 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_volume);
+        v4.setText(v4.getText() + Float.toString(result.getVolume()) + "%");
+        TextView v5 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_color);
         String color = "NaN";
         if(result.getColor()!= null)
             color = result.getColor();
-        v4.setText(v4.getText() + color);
-        TextView v5 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_ibu);
+        v5.setText(v5.getText() + color);
+        TextView v6 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_ibu);
         String ibu = "NaN";
         if(result.getIbu() != 0)
             ibu = Integer.toString(result.getIbu());
-        v5.setText(v5.getText() + ibu);
-        TextView v6 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_glass);
-        v6.setText(v6.getText() + result.getGlass());
+        v6.setText(v6.getText() + ibu);
+        TextView v7 = (TextView) ((InfoBeerActivity) context).findViewById(R.id.beer_glass);
+        v7.setText(v7.getText() + result.getGlass());
     }
 }

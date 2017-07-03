@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -67,7 +68,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 final LatLng latLng = mark.getPosition();
                 mark.showInfoWindow();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-                builder.setTitle("Breweries within radius");
                 builder.setMessage("Do you also want to search for breweries from here?");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
@@ -83,6 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
                 AlertDialog alert = builder.create();
+                alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 alert.show();
                 return true;
             }

@@ -25,4 +25,6 @@
         <item>40 km</item>
     </array>
 
+    <string name="search_hint">Enter partial or full beer\'s name</string>
+
 </resources>

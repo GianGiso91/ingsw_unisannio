@@ -40,7 +40,6 @@ public class MainActivity extends Activity{
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         activityMainBinding.search.setActivated(true);
-        activityMainBinding.search.setQueryHint("Type your keyword here");
         activityMainBinding.search.onActionViewExpanded();
         activityMainBinding.search.setIconified(false);
         activityMainBinding.search.clearFocus();
