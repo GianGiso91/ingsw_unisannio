@@ -1,22 +1,19 @@
 package unisannio.ingsoft.bbm.backend;
 
 import com.google.appengine.api.datastore.GeoPt;
-
 import junit.framework.TestCase;
-
 import org.junit.Assert;
+import org.junit.Test;
+import org.junit.After;
+import org.junit.Before;
 
-import unisannio.ingsoft.bbm.backend.Brewery;
 
-/**
- * Created by gianluca on 19/05/2017.
- */
 
 public class TestBrewery extends TestCase {
 
     private Brewery dummyBrewery;
 
-    @Override
+    @Before
     protected void setUp() throws Exception{
         this.dummyBrewery = new Brewery();
         String[] beers = {"Leffe Blonde", "Leffe Rouge"};
@@ -29,17 +26,21 @@ public class TestBrewery extends TestCase {
         this.dummyBrewery.setWebaddress("example.com");
     }
 
+    @Test
     public void testIdbrewery(){
         assertEquals(this.dummyBrewery.getIdbrewery(),"Leffe");
         this.dummyBrewery.setIdbrewery("Chimay");
         assertEquals(this.dummyBrewery.getIdbrewery(), "Chimay");
     }
 
+    @Test
     public void testPlace(){
         assertEquals(this.dummyBrewery.getPlace(),"Bruxelles");
         this.dummyBrewery.setPlace("Antwerp");
         assertEquals(this.dummyBrewery.getPlace(), "Antwerp");
     }
+
+    @Test
     public void testBeers(){
         String [] beers={"Leffe Blonde", "Leffe Rouge"};
         Assert.assertArrayEquals(this.dummyBrewery.getBeers(),beers);
@@ -47,6 +48,8 @@ public class TestBrewery extends TestCase {
         this.dummyBrewery.setBeers(beers2);
         Assert.assertArrayEquals(this.dummyBrewery.getBeers(), beers2);
     }
+
+    @Test
     public void testGeoPt(){
         assertEquals(this.dummyBrewery.getGeopt().getLatitude(),3.4f);
         assertEquals(this.dummyBrewery.getGeopt().getLongitude(),3.1f);
@@ -54,15 +57,16 @@ public class TestBrewery extends TestCase {
         assertEquals(this.dummyBrewery.getGeopt().getLatitude(),2.2f);
         assertEquals(this.dummyBrewery.getGeopt().getLongitude(),2.5f);
     }
+
+    @Test
     public void testWebAddress(){
         assertEquals(this.dummyBrewery.getWebaddress(),"example.com");
         this.dummyBrewery.setWebaddress("example2.com");
         assertEquals(this.dummyBrewery.getWebaddress(),"example2.com");
     }
 
-    @Override
+    @After
     protected void tearDown()throws Exception{
-        this.dummyBrewery = null;
-        assertNull(this.dummyBrewery);
+        assertNotNull(this.dummyBrewery);
     }
 }

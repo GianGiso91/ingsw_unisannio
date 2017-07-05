@@ -42,24 +42,24 @@ public class MainActivityTest {
 
 
     @Test
-    public void checkActivityNotNull() throws Exception {
+    public void checkActivityNotNull() {
         assertNotNull(activity);
     }
 
     @Test
-    public void shouldHaveCorrectAppName() throws Exception {
+    public void shouldHaveCorrectAppName() {
         String hello = activity.getResources().getString(R.string.app_name);
         assertEquals(hello,"BBM");
     }
 
     @Test
-    public void testNormalFlow() throws Exception {
+    public void testNormalFlow() {
         AsyncTask<Context, Integer, CollectionResponseString> asyncTask = new EndpointsAsyncTask();
         assertEquals(asyncTask.getStatus(),AsyncTask.Status.PENDING);
         asyncTask.execute(activity);
         assertEquals(asyncTask.getStatus(),AsyncTask.Status.RUNNING);
         Robolectric.getBackgroundThreadScheduler().unPause();
-        assertEquals(asyncTask.getStatus(),AsyncTask.Status.FINISHED);;
+        assertEquals(asyncTask.getStatus(),AsyncTask.Status.FINISHED);
     }
 
     @Test

@@ -18,9 +18,7 @@ import unisannio.ingsoft.bbm.backend.beerApi.model.Beer;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-/**
- * Created by gianluca on 04/06/2017.
- */
+
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
@@ -39,18 +37,18 @@ public class InfoBeerActivityTest {
         }
 
         @Test
-        public void checkActivityNotNull() throws Exception {
+        public void checkActivityNotNull() {
             assertNotNull(activity);
         }
 
         @Test
-        public void shouldHaveCorrectName() throws Exception {
+        public void shouldHaveCorrectName() {
             String hello = activity.getResources().getString(R.string.title_activity_info_beer);
             assertEquals(hello,"Info on the selected beer");
         }
 
         @Test
-        public void testNormalFlow() throws Exception {
+        public void testNormalFlow() {
             AsyncTask<android.util.Pair<Context, String>, Integer, Beer> asyncTask = new InfoBeerAsyncTask();
             assertEquals(asyncTask.getStatus(),AsyncTask.Status.PENDING);
             asyncTask.execute(new Pair(activity,"ciao"));
@@ -58,8 +56,6 @@ public class InfoBeerActivityTest {
             Robolectric.getBackgroundThreadScheduler().unPause();
             assertEquals(asyncTask.getStatus(),AsyncTask.Status.FINISHED);
         }
-
-
 }
 
 

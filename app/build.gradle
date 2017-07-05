@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 25
@@ -33,6 +34,36 @@ android {
     dataBinding {
         enabled = true
     }
+    jacoco {
+        version = '0.7.6.201602180812'
+    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
 }
 
 configurations {
@@ -61,8 +92,8 @@ checkstyle {
 }
 
 task checkstyleMain(type: Checkstyle) {
-    ignoreFailures = false
-    showViolations = false
+    ignoreFailures = true
+    showViolations = true
     source 'src/main', 'src/release', '../backend/src/main/java'
     include '**/*.java'
     exclude '**/gen/**'
@@ -75,20 +106,6 @@ task checkstyleMain(type: Checkstyle) {
     configFile = file("${projectDir}/config/checkstyle/checkstyle.xml")
 }
 
-task checkstyleTest(type: Checkstyle) {
-    ignoreFailures = false
-    showViolations = false
-    source 'src/androidTest', '../backend/src/test'
-    include '**/*.java'
-    exclude '**/gen/**'
-    exclude '**/R.java'
-    exclude '**/BuildConfig.java'
-    reports {
-        xml.destination "$project.buildDir/reports/checkstyle/test.xml"
-    }
-    classpath = files()
-    configFile = file("${projectDir}/config/checkstyle/checkstyle.xml")
-}
 
 task checkstyleReport << {
     checkType = project.ext.get("checkType")
@@ -106,9 +123,9 @@ task checkstyle(dependsOn: ['checkstyleMain', 'checkstyleTest']) {
 }
 
 task findbugs(type: FindBugs) {
-    ignoreFailures = true
+    ignoreFailures = false
     effort = "default"
-    reportLevel = "medium"
+    reportLevel = "high"
     classes = files("${project.rootDir}/app/build/intermediates/classes")
     source = fileTree('src/main/java/')
     classpath = files()

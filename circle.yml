@@ -13,9 +13,12 @@ licenses:
 general:
     artifacts:
         #- /home/ubuntu/ingw_unisannio/app/build/outputs/apk/
-        - /home/ubuntu/ingsw_unisannio/app/build/reports/
+        - /home/ubuntu/ingsw_unisannio/app/build/reports/checkstyle
+        - /home/ubuntu/ingsw_unisannio/app/build/reports/findbugs
+        - /home/ubuntu/ingsw_unisannio/app/build/reports/pmd
+        - /home/ubuntu/ingsw_unisannio/app/build/reports/tests
         - /home/ubuntu/ingsw_unisannio/backend/build/reports/
-        - /home/ubuntu/ingsw_unisannio/app/build/outputs/
+        - /home/ubuntu/ingsw_unisannio/app/build/outputs/apk
 
 machine:
     environment:
