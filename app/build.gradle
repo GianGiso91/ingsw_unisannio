@@ -124,7 +124,7 @@ task checkstyle(dependsOn: ['checkstyleMain', 'checkstyleTest']) {
 
 task findbugs(type: FindBugs) {
     ignoreFailures = false
-    effort = "default"
+    effort = "min"
     reportLevel = "high"
     classes = files("${project.rootDir}/app/build/intermediates/classes")
     source = fileTree('src/main/java/')

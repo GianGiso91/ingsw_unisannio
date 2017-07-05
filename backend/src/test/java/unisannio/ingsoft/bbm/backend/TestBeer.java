@@ -82,6 +82,13 @@ public class TestBeer extends TestCase {
         assertEquals(this.dummyBeer.getColor(), "Rouge");
     }
 
+    @Test
+    public void testIbu(){
+      assertEquals(this.dummyBeer.getIbu(),5);
+      this.dummyBeer.setIbu(30);
+      assertEquals(this.dummyBeer.getIbu(), 30);
+    }
+
     @After
     protected void tearDown()throws Exception{
         assertNotNull(this.dummyBeer);
