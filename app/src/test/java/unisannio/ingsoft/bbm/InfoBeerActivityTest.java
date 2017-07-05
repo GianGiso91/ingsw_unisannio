@@ -42,12 +42,6 @@ public class InfoBeerActivityTest {
         }
 
         @Test
-        public void shouldHaveCorrectName() {
-            String hello = activity.getResources().getString(R.string.title_activity_info_beer);
-            assertEquals(hello,"Info on the selected beer");
-        }
-
-        @Test
         public void testNormalFlow() {
             AsyncTask<android.util.Pair<Context, String>, Integer, Beer> asyncTask = new InfoBeerAsyncTask();
             assertEquals(asyncTask.getStatus(),AsyncTask.Status.PENDING);
