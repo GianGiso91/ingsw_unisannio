@@ -71,9 +71,9 @@ jacocoTestReport {
 }
 
 task findbugs(type: FindBugs) {
-    ignoreFailures = true
-    effort = "default"
-    reportLevel = "medium"
+    ignoreFailures = false
+    effort = "min"
+    reportLevel = "high"
     classes = files("${project.rootDir}/backend/build/classes")
     source = fileTree('src/main/java/')
     classpath = files()
@@ -82,10 +82,10 @@ task findbugs(type: FindBugs) {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination "$project.buildDir/reports/findbugs/findbugs-output.xml"
+            destination "$project.buildDir/reports/findbugs/findbugs-output-backend.xml"
         }
         html {
-            destination "$project.buildDir/reports/findbugs/findbugs-output.html"
+            destination "$project.buildDir/reports/findbugs/findbugs-output-backend.html"
         }
     }
     group = 'Code quality'

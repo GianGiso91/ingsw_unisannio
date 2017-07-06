@@ -18,7 +18,6 @@ general:
         - /home/ubuntu/ingsw_unisannio/app/build/reports/pmd
         - /home/ubuntu/ingsw_unisannio/app/build/reports/tests
         - /home/ubuntu/ingsw_unisannio/app/build/jacocoHtml
-        - /home/ubuntu/ingsw_unisannio/backend/build/reports/
         - /home/ubuntu/ingsw_unisannio/app/build/outputs/apk
         - /home/ubuntu/ingsw_unisannio/backend/build/reports/
         - /home/ubuntu/ingsw_unisannio/backend/build/jacocoHtml/

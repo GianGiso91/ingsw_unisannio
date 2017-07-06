@@ -154,7 +154,7 @@ public class BreweryEndpoint {
     try {
       ofy().load().type(Brewery.class).id(idbrewery).safe();
     } catch (com.googlecode.objectify.NotFoundException e) {
-        throw new NotFoundException("Could not find Brewery with ID: " + idbrewery); //NOPMD
+      throw new NotFoundException("Could not find Brewery with ID: " + idbrewery); //NOPMD
     }
   }
 }

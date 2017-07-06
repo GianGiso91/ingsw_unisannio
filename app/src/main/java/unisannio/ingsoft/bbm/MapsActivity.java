@@ -214,9 +214,9 @@ class EndAsyncTask extends AsyncTask<Context, Integer, CollectionResponseBrewery
     List<unisannio.ingsoft.bbm.backend.breweryApi.model.Brewery> brewery = result.getItems();
     for (unisannio.ingsoft.bbm.backend.breweryApi.model.Brewery b:brewery) {
       StringBuilder snippets = new StringBuilder(50);
-      snippets.append("WebAddress: " + b.getWebaddress() + "\n" +
-        "Beers: " + b.getBeers() + "\n" +
-        "Location: " + b.getPlace() + "\n");
+      snippets.append("WebAddress: " + b.getWebaddress() + "\n"
+          + "Beers: " + b.getBeers() + "\n"
+          + "Location: " + b.getPlace() + "\n");
       String info = snippets.toString();
       ((MapsActivity) context).createMarker(b.getGeopt(),b.getIdbrewery(),info);
     }
