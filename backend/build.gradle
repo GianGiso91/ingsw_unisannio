@@ -71,7 +71,7 @@ jacocoTestReport {
 }
 
 task findbugs(type: FindBugs) {
-    ignoreFailures = false
+    ignoreFailures = true
     effort = "min"
     reportLevel = "high"
     classes = files("${project.rootDir}/backend/build/classes")
